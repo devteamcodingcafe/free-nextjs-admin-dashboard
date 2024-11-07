@@ -13,6 +13,38 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [strength, setStrength] = useState(0);
+  const [validation, setValidation] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    digit: false,
+    specialChar: false,
+  });
+  const regex = {
+    length: /.{8,}/,
+    uppercase: /[A-Z]/,
+    lowercase: /[a-z]/,
+    digit: /\d/,
+    specialChar: /[@#$%^&*]/,
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    evaluateStrength(newPassword);
+    
+  };
+
+  const evaluateStrength = (password) => {
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+    setStrength(score);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -64,6 +96,7 @@ const SignUp = () => {
                       type="text"
                       placeholder="Enter your full name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
                     />
 
                     <span className="absolute right-4 top-4">
@@ -99,6 +132,7 @@ const SignUp = () => {
                       type="email"
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
                     />
 
                     <span className="absolute right-4 top-4">
@@ -128,8 +162,11 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="password"
+                      value={password}
+                      onChange={handlePasswordChange}
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
                     />
 
                     <span className="absolute right-4 top-4">
@@ -154,6 +191,21 @@ const SignUp = () => {
                       </svg>
                     </span>
                   </div>
+                  <div className="mt-2">
+                    <div
+                      className={`h-2 rounded-full transition-all ${strength === 0 ? "bg-gray-200" :
+                        strength <= 2 ? "bg-red-500 w-1/4" :
+                          strength === 3 ? "bg-yellow-500 w-1/2" :
+                            strength === 4 ? "bg-green-400 w-3/4" :
+                              "bg-green-600 w-full"
+                        }`}
+                    ></div>
+                    <p className="mt-1 text-sm text-gray-500">
+                      {strength <= 2 ? "Weak" :
+                        strength === 3 ? "Moderate" :
+                          strength === 4 ? "Strong" : "Very Strong"}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="mb-6">
@@ -163,6 +215,8 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -189,6 +243,7 @@ const SignUp = () => {
                       </svg>
                     </span>
                   </div>
+                  {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                 </div>
 
                 <div className="mb-5">
