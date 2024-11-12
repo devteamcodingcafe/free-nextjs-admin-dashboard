@@ -5,6 +5,7 @@ import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import Navbar from "../Navbar/Navbar";
+import { getCurrentUser } from "../helper/utils";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -33,9 +34,10 @@ const Header = (props: {
           {/* <!-- User Area --> */}
           {/* <DropdownUser /> */}
           {/* <!-- User Area --> */}
-          <div className="display flex w-50 justify-between">
+          <div className="display flex w-75 justify-between">
             <Link href="/auth/signin"><h6 className="text-gray-600">Sign in</h6></Link>
             <Link href="/auth/signup"><h6 className="text-gray-600">Sign Up</h6></Link>
+            {!getCurrentUser() ? <><DropdownUser /></> : ""}
           </div>
         </div>
       </div>

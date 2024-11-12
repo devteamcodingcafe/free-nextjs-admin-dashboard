@@ -16,7 +16,7 @@ const HeroSection = () => {
       .catch(error => console.error("Error fetching dentist data:", error));
   }, []);
 
-  const handleMouseEnter = (state) => setHoveredState(state);
+  const handleMouseEnter = () => setHoveredState(null);
   const handleMouseLeave = () => setHoveredState(null);
 
   return (
@@ -38,7 +38,7 @@ const HeroSection = () => {
       <p className="text-lg mb-8">Join thousands of dental professionals leveraging data to stay ahead.</p>
       <button className="bg-yellow-500 text-blue-900 px-6 py-3 rounded-lg font-semibold">
         <Link href="/auth/signup">Sign Up</Link>
-        
+
       </button>
     </section>
   );

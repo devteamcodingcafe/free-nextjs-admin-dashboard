@@ -88,13 +88,13 @@ const SignUp = () => {
         .then((res) => {
           if (res.data) {
             setMessage(res.data.message);
-            window.location.href = `/auth/verify_auth`; // Redirect on success
+            window.location.href = `/verify_auth`; // Redirect on success
+          }
+          else {
+            setError(res.data.message);
           }
         })
-        .catch((error) => {
-          console.error("Error during authentication:", error);
-          setError("There was an issue with the authentication process.");
-        });
+
     }
   };
 
